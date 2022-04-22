@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/aldofiore28/phone-book-API#readme",
   "devDependencies": {
+    "@types/mssql": "^7.1.5",
     "@typescript-eslint/eslint-plugin": "^5.20.0",
     "@typescript-eslint/parser": "^5.20.0",
     "eslint": "^8.13.0",
@@ -42,6 +43,7 @@
     "@types/express": "^4.17.13",
     "@types/node": "^17.0.25",
     "dotenv": "^16.0.0",
-    "express": "^4.17.3"
+    "express": "^4.17.3",
+    "mssql": "^8.1.0"
   }
 }
