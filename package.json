@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "npm": ">=6.0.0",
+    "node": ">=12.0.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/aldofiore28/phone-book-API/issues"
   },
-  "homepage": "https://github.com/aldofiore28/phone-book-API#readme"
+  "homepage": "https://github.com/aldofiore28/phone-book-API#readme",
+  "devDependencies": {
+    "typescript": "^4.6.3"
+  }
 }
