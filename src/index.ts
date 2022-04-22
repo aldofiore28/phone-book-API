@@ -1,5 +1,5 @@
 import express from 'express'
-import dotenv, { config } from 'dotenv'
+import dotenv from 'dotenv'
 import phoneNumberRouter from './router'
 import sql, { config as sqlConfig } from 'mssql'
 
