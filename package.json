@@ -8,7 +8,7 @@
     "node": ">=14.0.0"
   },
   "scripts": {
-    "start": "npm run build && nodemon index.js",
+    "start": "nodemon --config nodemon.json index.ts",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
     "dev": "tsc -d",
     "lint": "eslint --ext .js,.ts ."
