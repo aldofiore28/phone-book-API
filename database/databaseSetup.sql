@@ -1,6 +1,8 @@
 USE master
 GO
 
+DELETE DATABA
+
 IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = 'phoneBook')
 BEGIN
   CREATE DATABASE phoneBook;
