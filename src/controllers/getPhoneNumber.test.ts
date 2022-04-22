@@ -1,16 +1,22 @@
 import { Request, Response } from 'express'
+import { PhoneNumbers, WithId } from '../types'
 
 const mocks = {
   req: {},
   res: {
     status: jest.fn(),
     json: jest.fn()
-  }
+  },
+  runStoredProcedure: jest.fn()
 }
 
 jest.mock('express', () => ({
   req: mocks.req,
   res: mocks.res
+}))
+
+jest.mock('../utils/runStoredProcedure', () => ({
+  runStoredProcedure: mocks.runStoredProcedure
 }))
 
 import { getPhoneNumbers } from './getPhoneNumbers'
@@ -20,14 +26,25 @@ describe('getPhoneNumber', () => {
     mocks.res.status.mockReturnValue(mocks.res)
   })
 
-  it('runs correctly', async () => {
+  afterEach(() => {
+    mocks.res.status.mockReset()
+    mocks.res.json.mockReset()
+    mocks.runStoredProcedure.mockReset()
+  })
+
+  it('returns a status of 200 the phone numbers given from the sproc', async () => {
+    const phoneNumbersMock = {
+      id: 123
+    } as PhoneNumbers & WithId
+
+    mocks.runStoredProcedure.mockResolvedValue([phoneNumbersMock])
+
     const result = await getPhoneNumbers(
       mocks.req as Request,
       mocks.res as unknown as Response
     )
 
-    expect(mocks.res.json).toHaveBeenCalledWith({
-      phoneNumber: '123'
-    })
+    expect(mocks.res.status).toHaveBeenCalledWith(200)
+    expect(mocks.res.json).toHaveBeenCalledWith([phoneNumbersMock])
   })
 })
