@@ -1,0 +1,1 @@
+export { getPhoneNumbers } from './getPhoneNumbers'

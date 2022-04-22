@@ -1,9 +1,8 @@
 import { Router } from 'express'
+import { getPhoneNumbers } from '../controllers'
 
-export const router = Router()
+const phoneNumberRouter = Router()
 
-router.get('/', (req, res) => {
-  res.status(200).send()
-})
+phoneNumberRouter.get('/', getPhoneNumbers)
 
-export default router
+export default phoneNumberRouter
