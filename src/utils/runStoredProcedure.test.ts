@@ -27,7 +27,7 @@ describe('runStoredProcedure', () => {
     mocks.execute.mockClear()
   })
 
-  it('returns data from the database', async () => {
+  it('returns data from the setup', async () => {
     const anyData = {
       a: 1
     }

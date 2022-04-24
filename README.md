@@ -9,17 +9,22 @@ To make this application work, you are going to need:
 * npm >=6.0.0
 * Docker
 
-To install your database, run this command
-
-`docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD={{password}}" --name {{nameOfTheContainer}} -p 1433:1433 -d mcr.microsoft.com/mssql/server:2019-CU15-ubuntu-20.04`
-
-This will download and run the container for the first time.
+To setup the database, follow:
+* `$ docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD={{password}}" --name {{nameOfTheContainer}} -p 1433:1433 -d mcr.microsoft.com/mssql/server:2019-CU15-ubuntu-20.04`
+    * This will download the container and run it for the first time
+* `$  docker cp setup/databaseSetup.sql sqlserver:/`
+    * Run this command from the root of the project
+* `$ docker exec -it {{nameOfTheContainer}} "bash"`
+    * This will execute bash into the container
+* `$ /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P '{{password}}' -i /databaseSetup.sql`
+    * This will run the sql script setup that will create the database, tables and stored procedures.
 
 To stop the container, run `docker stop {{nameOfTheContainer}}`
 
 To run it again, run ``docker start {{nameOfTheContainer}}``
 
-To start development, simply run `npm start` to start the server in watch mode. This command won't work by itself if the
-database container isn't running.
+If it's the first time running the project, run `npm i` to install the dependencies.
+To start development, simply run `npm start` to start the server in watch mode. The app won't work without the database
+running.
 
 /* deployment instruction here */
