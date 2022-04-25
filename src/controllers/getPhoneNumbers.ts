@@ -1,7 +1,6 @@
 import { Request, Response } from 'express'
-import { runStoredProcedure } from '../utils/runStoredProcedure'
+import { runStoredProcedure, buildErrorResponse } from '../utils'
 import { PhoneNumbers, StoredProcedures, WithId } from '../types'
-import { buildErrorResponse } from '../utils/handleError'
 
 export const getPhoneNumbers = async (req: Request, res: Response) => {
   try {

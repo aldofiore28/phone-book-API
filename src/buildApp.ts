@@ -2,14 +2,14 @@ import express, { Express } from 'express'
 import phoneNumberRouter from './router'
 import { config as sqlConfig } from 'mssql'
 
-export const buildApp = async (sql: any): Promise<Express> => {
+export const buildApp = async (sql: any, env: NodeJS.ProcessEnv): Promise<Express> => {
   const app = express()
-  const port = process.env.APP_PORT || 5000
+  const port = env.APP_PORT || 5000
   const databaseOptions: sqlConfig = {
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE_TARGET,
-    server: process.env.DATABASE_SERVER as string,
+    user: env.DATABASE_USER,
+    password: env.DATABASE_PASSWORD,
+    database: env.DATABASE_TARGET,
+    server: env.DATABASE_SERVER as string,
     pool: {
       max: 10,
       min: 0,

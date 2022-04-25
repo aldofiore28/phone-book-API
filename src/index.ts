@@ -4,4 +4,4 @@ import { buildApp } from './buildApp'
 
 dotenv.config()
 
-buildApp(mssql)
+buildApp(mssql, process.env)
