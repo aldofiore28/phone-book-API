@@ -28,4 +28,26 @@ the template established in the `.env.example` and add all your local dev enviro
 To start development, simply run `npm start` to start the server in watch mode. The app won't work without the database
 running.
 
-/* deployment instruction here */
+# Technical choices and tradeoffs
+
+I have opted to use `mssql` and `express` for my familiarity with the packages. For this specific application, I didn't think
+using any specific framework would have helped me in any way, especially if I was trying to produce production ready code
+in the time given to me.
+By using `mssql`, I had to give up a some maintainability on the db side simply because I am not confident using an ORM (`Prisma` for example)
+and thought it would just slow me down.
+I also used `supertest` and `jest` for my testing suite because I believe they are the best tools for the job, very flexible
+and easy to use and setup.
+
+There are a lot of things that I would have done with more time for sure:
+* Finish all the other tasks (I felt like finishing them would take me well over the 3 hours of work I had, and I don't believe would represent production ready code at that timespan)
+  * Implemented JWT 
+  * Pagination and sorting
+  * I believe these 2 would be more useful to show off during integration testing as well.
+* Implemented an ORM (ease of use, maintainability and fewer context switching between SQL and TS)
+* More setup around my testing suite (I only have installed the packages and use them due to time limit)
+* Easier initial start-up of the project (I would create a docker-compose.yaml to spin up both a node and SQL instance, as well as automate the initial setup)
+  * Did not opt for this one because of time, the current setup was very straight forward.
+* Additional setup for express (cors, rate limit and other middlewares)
+* Hosting the DB to run e2e tests with an actual database as a final step.
+
+You can contact me on [Github](https://github.com/aldofiore28) and [Stack Overflow](https://stackoverflow.com/users/11095959/aldo-fiore).
