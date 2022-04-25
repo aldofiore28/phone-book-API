@@ -32,11 +32,18 @@ export const createPhoneBookRecord = async (req: Request, res: Response) => {
       )
     ])
 
+    const addressId = addressResult[0]?.addressId
+    const phoneNumbersId = phoneNumberResult[0]?.phoneNumbersId
+
+    if (!addressId || !phoneNumbersId) {
+      return res.status(500).json(buildErrorResponse(new Error('Unexpected error')))
+    }
+
     const recordInputs = buildSaveRecordSprocInputs({
       email: req.body.email,
       name: req.body.name,
-      phoneNumbersId: phoneNumberResult.phoneNumbersId,
-      addressId: addressResult.addressId
+      phoneNumbersId,
+      addressId
     })
 
     await runStoredProcedure(StoredProcedures.SAVE_RECORD, recordInputs)

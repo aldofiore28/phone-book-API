@@ -112,14 +112,50 @@ describe('createPhoneBookRecord', () => {
     }
   })
 
-  it('returns 201 and calls all the sprocs', async () => {
-    mocks.runStoredProcedure.mockResolvedValueOnce({
-      addressId: 123
-    } as WithAddressId)
+  it('returns 500 if the addressId is not returned from the database', async () => {
+    mocks.runStoredProcedure.mockResolvedValueOnce([] as Array<WithAddressId>)
 
-    mocks.runStoredProcedure.mockResolvedValueOnce({
+    mocks.runStoredProcedure.mockResolvedValueOnce([{
       phoneNumbersId: 456
-    } as WithPhoneNumbersId)
+    }] as Array<WithPhoneNumbersId>)
+
+    await createPhoneBookRecord(
+      mocks.req as Request,
+      mocks.res as unknown as Response
+    )
+
+    expect(mocks.res.status).toHaveBeenCalledWith(500)
+    expect(mocks.res.json).toHaveBeenCalledWith({
+      error: 'Unexpected error'
+    })
+  })
+
+  it('returns 500 if the addressId is not returned from the database', async () => {
+    mocks.runStoredProcedure.mockResolvedValueOnce([{
+      addressId: 123
+    }] as Array<WithAddressId>)
+
+    mocks.runStoredProcedure.mockResolvedValueOnce([] as Array<WithPhoneNumbersId>)
+
+    await createPhoneBookRecord(
+      mocks.req as Request,
+      mocks.res as unknown as Response
+    )
+
+    expect(mocks.res.status).toHaveBeenCalledWith(500)
+    expect(mocks.res.json).toHaveBeenCalledWith({
+      error: 'Unexpected error'
+    })
+  })
+
+  it('returns 201 and calls all the sprocs', async () => {
+    mocks.runStoredProcedure.mockResolvedValueOnce([{
+      addressId: 123
+    }] as Array<WithAddressId>)
+
+    mocks.runStoredProcedure.mockResolvedValueOnce([{
+      phoneNumbersId: 456
+    }] as Array<WithPhoneNumbersId>)
 
 
     await createPhoneBookRecord(

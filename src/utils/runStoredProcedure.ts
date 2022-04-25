@@ -1,6 +1,5 @@
 import { StoredProcedures } from '../types'
 import sql from 'mssql'
-import { extractRecordset } from './extractRecordset'
 
 export interface SQLInputs {
   name: string,
@@ -11,7 +10,7 @@ export interface SQLInputs {
 export const runStoredProcedure = async <T>(
   procedure: StoredProcedures,
   inputs?: Array<SQLInputs>
-): Promise<T> => {
+): Promise<sql.IRecordSet<T>> => {
   const request = await new sql.Request()
 
   inputs?.length && inputs.forEach(input => {
@@ -20,5 +19,5 @@ export const runStoredProcedure = async <T>(
 
   const result = await request.execute(procedure)
 
-  return result.recordset && extractRecordset(result.recordset)
+  return result.recordset
 }

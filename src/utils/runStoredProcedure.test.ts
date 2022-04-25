@@ -41,7 +41,7 @@ describe.only('runStoredProcedure', () => {
     const result = await runStoredProcedure(mocks.storedProcedureName)
 
     expect(mocks.execute).toHaveBeenCalledWith(mocks.storedProcedureName)
-    expect(result).toStrictEqual(anyData)
+    expect(result).toStrictEqual([anyData])
   })
 
   it('runs a sproc with inputs and returns data from the db if present', async () => {
@@ -63,7 +63,7 @@ describe.only('runStoredProcedure', () => {
 
     expect(mocks.input).toHaveBeenCalledWith(input.name, input.type, input.value)
     expect(mocks.execute).toHaveBeenCalledWith(mocks.storedProcedureName)
-    expect(result).toStrictEqual(anyData)
+    expect(result).toStrictEqual([anyData])
   })
 
   it('runs a sproc with inputs and returns undefined if no data need to be retrieved from the db', async () => {
