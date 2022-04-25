@@ -100,6 +100,70 @@ describe('Integration tests', () => {
         ])
     })
 
+    it('Returns 500 with a valid body but an error when retrieving the addressId', async () => {
+      // mocks return of the addressId after save
+      mocks.sql.execute.mockResolvedValueOnce({
+        recordset: []
+      })
+
+      // mocks return of the phoneNumberId after save
+      mocks.sql.execute.mockResolvedValueOnce({
+        recordset: [{
+          phoneNumbersId: '123'
+        }]
+      })
+
+      await request(app)
+        .post(BASE_ROUTE)
+        .send({
+          name: 'a name',
+          email: 'aldo.fiore@email.com',
+          address: {
+            address1: 'an address',
+            city: 'Bath',
+            postcode: 'a postcode',
+            country: 'United Kingdom'
+          },
+          phoneNumbers: {
+            mobile: '070000000'
+          }
+        } as PhoneBook)
+        .set({ 'Accept': 'application/json' })
+        .expect(500)
+    })
+
+    it('Returns 500 with a valid body but an error when retrieving the phoneNumbersId', async () => {
+      // mocks return of the addressId after save
+      mocks.sql.execute.mockResolvedValueOnce({
+        recordset: [{
+          addressId: '123'
+        }]
+      })
+
+      // mocks return of the phoneNumberId after save
+      mocks.sql.execute.mockResolvedValueOnce({
+        recordset: []
+      })
+
+      await request(app)
+        .post(BASE_ROUTE)
+        .send({
+          name: 'a name',
+          email: 'aldo.fiore@email.com',
+          address: {
+            address1: 'an address',
+            city: 'Bath',
+            postcode: 'a postcode',
+            country: 'United Kingdom'
+          },
+          phoneNumbers: {
+            mobile: '070000000'
+          }
+        } as PhoneBook)
+        .set({ 'Accept': 'application/json' })
+        .expect(500)
+    })
+
     it('Returns 201 with a valid body', async () => {
       // mocks return of the addressId after save
       mocks.sql.execute.mockResolvedValueOnce({
@@ -111,7 +175,7 @@ describe('Integration tests', () => {
       // mocks return of the phoneNumberId after save
       mocks.sql.execute.mockResolvedValueOnce({
         recordset: [{
-          phoneNumberId: '123'
+          phoneNumbersId: '123'
         }]
       })
 
