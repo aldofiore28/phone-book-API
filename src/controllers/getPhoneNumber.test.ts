@@ -32,12 +32,31 @@ describe('getPhoneNumber', () => {
     mocks.runStoredProcedure.mockReset()
   })
 
+  it('returns a status of 500 if the database calls throws', async () => {
+    const errorMessage = 'an error'
+    mocks.runStoredProcedure.mockImplementationOnce(() => {
+      throw new Error(errorMessage)
+    })
+
+    try {
+      await getPhoneNumbers(
+        mocks.req as Request,
+        mocks.res as unknown as Response
+      )
+    } catch (error) {
+      expect(mocks.res.status).toHaveBeenCalledWith(500)
+      expect(mocks.res.json).toHaveBeenCalledWith({
+        error: errorMessage
+      })
+    }
+  })
+
   it('returns a status of 200 the phone numbers given from the sproc', async () => {
     const phoneNumbersMock = {
       id: 123
     } as PhoneNumbers & WithId
 
-    mocks.runStoredProcedure.mockResolvedValue([phoneNumbersMock])
+    mocks.runStoredProcedure.mockResolvedValueOnce([phoneNumbersMock])
 
     const result = await getPhoneNumbers(
       mocks.req as Request,
