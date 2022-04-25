@@ -1,5 +1,5 @@
 import express, { Express } from 'express'
-import phoneNumberRouter from './router'
+import phoneBookRouter from './router'
 import { config as sqlConfig } from 'mssql'
 
 export const buildApp = async (sql: any, env: NodeJS.ProcessEnv): Promise<Express> => {
@@ -23,7 +23,7 @@ export const buildApp = async (sql: any, env: NodeJS.ProcessEnv): Promise<Expres
 
   app.use(express.json())
   app.use(express.urlencoded({ extended: true }))
-  app.use(phoneNumberRouter)
+  app.use(phoneBookRouter)
 
   try {
     await sql.connect(databaseOptions)

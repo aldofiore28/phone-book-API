@@ -28,6 +28,11 @@ the template established in the `.env.example` and add all your local environmen
 To start development, simply run `npm start` to start the server in watch mode. The app won't work without the database
 running.
 
+# Functionality
+
+As of this stage, this API posses 2 endpoint (`GET and POST /phonebook`) to either retrieve all phone numbers or add a record to the phonebook
+(with an openapi missing, the shape of the request can be found in `src/types/phonebook.ts`)
+
 # Technical choices and tradeoffs
 
 I have opted to use `mssql` and `express` for my familiarity with the packages. For this specific application, I didn't think
@@ -49,5 +54,6 @@ There are a lot of things that I would have done with more time for sure:
   * Did not opt for this one because of time, the current setup was very straight forward.
 * Additional setup for express (cors, rate limit and other middlewares)
 * Hosting the DB to run e2e tests with an actual database as a final step.
+* Document the API with an appropriate tool (openapi)
 
 You can contact me on [Github](https://github.com/aldofiore28) and [Stack Overflow](https://stackoverflow.com/users/11095959/aldo-fiore).

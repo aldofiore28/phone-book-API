@@ -3,15 +3,15 @@ import { getPhoneNumbers, createPhoneBookRecord } from '../controllers'
 import { checkSchema } from 'express-validator'
 import { createPhoneBookRecordSchema } from '../types/schemas'
 
-export const BASE_ROUTE = '/phonenumbers'
+export const BASE_ROUTE = '/phonebook'
 
-const phoneNumberRouter = Router()
+const phoneBookRouter = Router()
 
-phoneNumberRouter.get(BASE_ROUTE, getPhoneNumbers)
-phoneNumberRouter.post(
+phoneBookRouter.get(BASE_ROUTE, getPhoneNumbers)
+phoneBookRouter.post(
   BASE_ROUTE,
   checkSchema(createPhoneBookRecordSchema),
   createPhoneBookRecord
 )
 
-export default phoneNumberRouter
+export default phoneBookRouter

@@ -49,6 +49,7 @@ BEGIN
         BEGIN
             SELECT
                 record.id,
+                record.name,
                 phoneNumbers.work,
                 phoneNumbers.home,
                 phoneNumbers.mobile,
@@ -114,7 +115,33 @@ BEGIN
                 @other 
             );
 
-        SELECT phoneNumberId AS SCOPE_IDENTITY();
+        SELECT SCOPE_IDENTITY() AS phoneNumbersId;
+        END
+    ')
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.procedures WHERE name = 'saveRecord')
+BEGIN
+    EXEC('
+        CREATE PROCEDURE saveRecord
+            @email VARCHAR(256),
+            @name VARCHAR(256),
+            @frnPhoneNumbersId INT,
+            @frnAddressId INT
+        AS
+        BEGIN
+            INSERT INTO record (
+                email,
+                name,
+                frnPhoneNumbersId,
+                frnAddressId
+            ) VALUES (
+                @email,
+                @name,
+                @frnPhoneNumbersId,
+                @frnAddressId 
+            );
         END
     ')
 END

@@ -12,8 +12,8 @@
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
     "build": "tsc -d",
     "lint": "eslint --ext .js,.ts .",
-    "test": "jest --coverage",
-    "test:no-cache": "jest --coverage --no-cache",
+    "test": "jest --coverage src/",
+    "test:no-cache": "jest --coverage --no-cache src/",
     "test:integration": "jest --coverage tests/integration.test.ts"
   },
   "repository": {
