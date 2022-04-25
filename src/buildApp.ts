@@ -21,6 +21,8 @@ export const buildApp = async (sql: any): Promise<Express> => {
     }
   }
 
+  app.use(express.json())
+  app.use(express.urlencoded({ extended: true }))
   app.use(phoneNumberRouter)
 
   try {

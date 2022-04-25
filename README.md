@@ -23,7 +23,8 @@ To stop the container, run `docker stop {{nameOfTheContainer}}`
 
 To run it again, run ``docker start {{nameOfTheContainer}}``
 
-If it's the first time running the project, run `npm i` to install the dependencies.
+If it's the first time running the project, run `npm i` to install the dependencies. Then, create a `.env` file following
+the template established in the `.env.example` and add all your local dev environments variables.
 To start development, simply run `npm start` to start the server in watch mode. The app won't work without the database
 running.
 

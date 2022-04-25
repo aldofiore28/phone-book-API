@@ -11,6 +11,6 @@ export const getPhoneNumbers = async (req: Request, res: Response) => {
 
     return res.status(200).json(phoneNumbers)
   } catch (error) {
-    res.status(500).json(buildErrorResponse(error))
+    return res.status(500).json(buildErrorResponse(error))
   }
 }
