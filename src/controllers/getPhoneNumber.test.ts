@@ -58,7 +58,7 @@ describe('getPhoneNumber', () => {
 
     mocks.runStoredProcedure.mockResolvedValueOnce([phoneNumbersMock])
 
-    const result = await getPhoneNumbers(
+    await getPhoneNumbers(
       mocks.req as Request,
       mocks.res as unknown as Response
     )

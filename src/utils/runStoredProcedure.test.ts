@@ -5,7 +5,8 @@ const mocks = {
   sql: {
     Request: jest.fn()
   },
-  execute: jest.fn()
+  execute: jest.fn(),
+  input: jest.fn()
 }
 
 jest.mock('mssql', () => ({
@@ -13,12 +14,13 @@ jest.mock('mssql', () => ({
   default: mocks.sql
 }))
 
-import { runStoredProcedure } from './runStoredProcedure'
+import { runStoredProcedure, SQLInputs } from './runStoredProcedure'
 
-describe('runStoredProcedure', () => {
+describe.only('runStoredProcedure', () => {
   beforeEach(() => {
     mocks.sql.Request.mockImplementation(() => ({
-      execute: mocks.execute
+      execute: mocks.execute,
+      input: mocks.input
     }))
   })
 
@@ -27,18 +29,51 @@ describe('runStoredProcedure', () => {
     mocks.execute.mockClear()
   })
 
-  it('returns data from the setup', async () => {
+  it('runs a sproc without inputs and returns data from the db', async () => {
     const anyData = {
       a: 1
     }
 
-    mocks.execute.mockResolvedValue({
+    mocks.execute.mockResolvedValueOnce({
       recordset: [anyData]
     })
 
     const result = await runStoredProcedure(mocks.storedProcedureName)
 
     expect(mocks.execute).toHaveBeenCalledWith(mocks.storedProcedureName)
-    expect(result).toStrictEqual([anyData])
+    expect(result).toStrictEqual(anyData)
+  })
+
+  it('runs a sproc with inputs and returns data from the db if present', async () => {
+    const anyData = {
+      a: 1
+    }
+
+    const input: SQLInputs = {
+      name: 'a name',
+      type: {} as any,
+      value: 1
+    }
+
+    mocks.execute.mockResolvedValueOnce({
+      recordset: [anyData]
+    })
+
+    const result = await runStoredProcedure(mocks.storedProcedureName, [input])
+
+    expect(mocks.input).toHaveBeenCalledWith(input.name, input.type, input.value)
+    expect(mocks.execute).toHaveBeenCalledWith(mocks.storedProcedureName)
+    expect(result).toStrictEqual(anyData)
+  })
+
+  it('runs a sproc with inputs and returns undefined if no data need to be retrieved from the db', async () => {
+    mocks.execute.mockResolvedValueOnce({
+      recordset: undefined
+    })
+
+    const result = await runStoredProcedure(mocks.storedProcedureName)
+
+    expect(mocks.execute).toHaveBeenCalledWith(mocks.storedProcedureName)
+    expect(result).toBeUndefined()
   })
 })

@@ -1,8 +1,6 @@
 USE master
 GO
 
-DELETE DATABA
-
 IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = 'phoneBook')
 BEGIN
   CREATE DATABASE phoneBook;
@@ -61,4 +59,63 @@ BEGIN
         END'
     )
     END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.procedures WHERE name = 'saveAddress')
+BEGIN
+    EXEC('
+        CREATE PROCEDURE saveAddress
+            @address1 VARCHAR(256),
+            @address2 VARCHAR(256),
+            @city VARCHAR(50),
+            @postcode VARCHAR(20),
+            @country VARCHAR(50)
+        AS
+        BEGIN
+            INSERT INTO address (
+                address1,
+                address2,
+                city,
+                postcode,
+                country
+            ) VALUES (
+                @address1,
+                @address2,
+                @city,
+                @postcode,
+                @country
+            );
+
+        SELECT SCOPE_IDENTITY() AS addressId;
+        END
+    ')
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.procedures WHERE name = 'savePhoneNumbers')
+BEGIN
+    EXEC('
+        CREATE PROCEDURE savePhoneNumbers
+            @work VARCHAR(20),
+            @home VARCHAR(20),
+            @mobile VARCHAR(20),
+            @other VARCHAR(20)
+        AS
+        BEGIN
+            INSERT INTO phoneNumbers (
+                work,
+                home,
+                mobile,
+                other
+            ) VALUES (
+                @work,
+                @home,
+                @mobile,
+                @other 
+            );
+
+        SELECT phoneNumberId AS SCOPE_IDENTITY();
+        END
+    ')
+END
 GO

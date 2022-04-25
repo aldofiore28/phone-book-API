@@ -1,2 +1,2 @@
-export { createPhoneBookRecord } from './createPhoneNumber'
+export { createPhoneBookRecord } from './createPhoneBookRecord'
 export { getPhoneNumbers } from './getPhoneNumbers'

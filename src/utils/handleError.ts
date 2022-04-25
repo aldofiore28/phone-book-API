@@ -4,7 +4,7 @@ export interface ErrorResponse {
   error: string
 }
 
-export interface ValidationErrors {
+export interface ValidationErrorInformation {
   errorMessage: string
   field: string
 }
@@ -13,7 +13,7 @@ export const buildErrorResponse = (error: unknown): ErrorResponse => ({
   error: error instanceof Error ? error.message : JSON.stringify(error)
 })
 
-export const buildValidationErrors = (errors: ValidationError[]): ValidationErrors[] =>
+export const buildValidationErrors = (errors: ValidationError[]): ValidationErrorInformation[] =>
   errors.map(error => ({
     errorMessage: error.msg,
     field: error.param

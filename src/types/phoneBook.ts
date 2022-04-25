@@ -24,3 +24,11 @@ export interface PhoneNumbers {
 export interface WithId {
   id: number
 }
+
+export interface WithAddressId {
+  addressId: number
+}
+
+export interface WithPhoneNumbersId {
+  phoneNumbersId: number
+}
