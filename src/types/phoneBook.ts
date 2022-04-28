@@ -1,11 +1,3 @@
-export interface PhoneBook {
-  id: number
-  name: string
-  email: string
-  address: Address
-  phoneNumbers: PhoneNumbers
-}
-
 export interface Address {
   address1: string
   address2?: string
@@ -19,6 +11,14 @@ export interface PhoneNumbers {
   home?: string
   mobile: string
   other?: string
+}
+
+export interface PhoneBook {
+  id: number
+  name: string
+  email: string
+  address: Address
+  phoneNumbers: PhoneNumbers
 }
 
 export interface WithId {

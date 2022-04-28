@@ -1,4 +1,10 @@
-import { Address, PhoneBook, PhoneNumbers, WithAddressId, WithPhoneNumbersId } from '../types'
+import {
+  Address,
+  PhoneBook,
+  PhoneNumbers,
+  WithAddressId,
+  WithPhoneNumbersId,
+} from '../types'
 import { SQLInputs } from './runStoredProcedure'
 import sql from 'mssql'
 
@@ -8,28 +14,28 @@ export const buildSaveAddressSprocInputs = (
   {
     name: 'address1',
     type: sql.VarChar(256),
-    value: address.address1
+    value: address.address1,
   },
   {
     name: 'address2',
     type: sql.VarChar(256),
-    value: address.address2
+    value: address.address2,
   },
   {
     name: 'city',
     type: sql.VarChar(50),
-    value: address.city
+    value: address.city,
   },
   {
     name: 'postcode',
     type: sql.VarChar(20),
-    value: address.postcode
+    value: address.postcode,
   },
   {
     name: 'country',
     type: sql.VarChar(50),
-    value: address.country
-  }
+    value: address.country,
+  },
 ]
 
 export const buildSavePhoneNumbersSprocInputs = (
@@ -38,51 +44,51 @@ export const buildSavePhoneNumbersSprocInputs = (
   {
     name: 'work',
     type: sql.VarChar(20),
-    value: phoneNumbers.work
+    value: phoneNumbers.work,
   },
   {
     name: 'home',
     type: sql.VarChar(20),
-    value: phoneNumbers.home
+    value: phoneNumbers.home,
   },
   {
     name: 'other',
     type: sql.VarChar(20),
-    value: phoneNumbers.other
+    value: phoneNumbers.other,
   },
   {
     name: 'mobile',
     type: sql.VarChar(20),
-    value: phoneNumbers.mobile
+    value: phoneNumbers.mobile,
   },
 ]
 
-export const buildSaveRecordSprocInputs = (
-  {
-    email,
-    name,
-    addressId,
-    phoneNumbersId
-  }: Partial<PhoneBook & WithPhoneNumbersId & WithAddressId>
-): Array<SQLInputs> => [
+export const buildSaveRecordSprocInputs = ({
+  email,
+  name,
+  addressId,
+  phoneNumbersId,
+}: Partial<
+  PhoneBook & WithPhoneNumbersId & WithAddressId
+>): Array<SQLInputs> => [
   {
     name: 'email',
     type: sql.VarChar(256),
-    value: email
+    value: email,
   },
   {
     name: 'name',
     type: sql.VarChar(256),
-    value: name
+    value: name,
   },
   {
     name: 'frnPhoneNumbersId',
     type: sql.Int(),
-    value: phoneNumbersId
+    value: phoneNumbersId,
   },
   {
     name: 'frnAddressId',
     type: sql.Int(),
-    value: addressId
+    value: addressId,
   },
 ]

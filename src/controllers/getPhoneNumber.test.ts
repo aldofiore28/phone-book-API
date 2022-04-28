@@ -5,20 +5,21 @@ const mocks = {
   req: {},
   res: {
     status: jest.fn(),
-    json: jest.fn()
+    json: jest.fn(),
   },
-  runStoredProcedure: jest.fn()
+  runStoredProcedure: jest.fn(),
 }
 
 jest.mock('express', () => ({
   req: mocks.req,
-  res: mocks.res
+  res: mocks.res,
 }))
 
 jest.mock('../utils/runStoredProcedure', () => ({
-  runStoredProcedure: mocks.runStoredProcedure
+  runStoredProcedure: mocks.runStoredProcedure,
 }))
 
+// eslint-disable-next-line import/first
 import { getPhoneNumbers } from './getPhoneNumbers'
 
 describe('getPhoneNumber', () => {
@@ -46,14 +47,14 @@ describe('getPhoneNumber', () => {
     } catch (error) {
       expect(mocks.res.status).toHaveBeenCalledWith(500)
       expect(mocks.res.json).toHaveBeenCalledWith({
-        error: errorMessage
+        error: errorMessage,
       })
     }
   })
 
   it('returns a status of 200 the phone numbers given from the sproc', async () => {
     const phoneNumbersMock = {
-      id: 123
+      id: 123,
     } as PhoneNumbers & WithId
 
     mocks.runStoredProcedure.mockResolvedValueOnce([phoneNumbersMock])

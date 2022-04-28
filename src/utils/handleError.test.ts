@@ -7,16 +7,16 @@ describe('handleError', () => {
       const errorMessage = 'an error'
 
       expect(buildErrorResponse(new Error(errorMessage))).toStrictEqual({
-        error: errorMessage
+        error: errorMessage,
       })
     })
 
     it('builds an error from stringyfing anything passed in', () => {
-      const objectError = {something: 'something'}
-      const expected = "{\"something\":\"something\"}"
+      const objectError = { something: 'something' }
+      const expected = '{"something":"something"}'
 
       expect(buildErrorResponse(objectError)).toStrictEqual({
-        error: expected
+        error: expected,
       })
     })
   })
@@ -25,13 +25,15 @@ describe('handleError', () => {
     it('builds an array of errors from the validator response', () => {
       const validationError = {
         msg: 'a message',
-        param: 'a param'
+        param: 'a param',
       } as ValidationError
 
-      expect(buildValidationErrors([validationError])).toStrictEqual([{
-        errorMessage: validationError.msg,
-        field: validationError.param
-      }])
+      expect(buildValidationErrors([validationError])).toStrictEqual([
+        {
+          errorMessage: validationError.msg,
+          field: validationError.param,
+        },
+      ])
     })
   })
 })

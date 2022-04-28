@@ -1,36 +1,36 @@
 import { Schema } from 'express-validator'
 
 export const createPhoneBookRecordSchema: Schema = Object.freeze({
-  'name': {
+  name: {
     isString: true,
-    trim: true
+    trim: true,
   },
-  'email': {
+  email: {
     isEmail: true,
     isString: true,
     trim: true,
-    errorMessage: 'Invalid email'
+    errorMessage: 'Invalid email',
   },
-  'phoneNumbers': {
-    isObject: true
+  phoneNumbers: {
+    isObject: true,
   },
   'phoneNumbers.work': {
     isString: true,
     trim: true,
     optional: {
       options: {
-        nullable: true
-      }
-    }
+        nullable: true,
+      },
+    },
   },
   'phoneNumbers.home': {
     isString: true,
     trim: true,
     optional: {
       options: {
-        nullable: true
-      }
-    }
+        nullable: true,
+      },
+    },
   },
   'phoneNumbers.mobile': {
     isString: true,
@@ -41,11 +41,11 @@ export const createPhoneBookRecordSchema: Schema = Object.freeze({
     trim: true,
     optional: {
       options: {
-        nullable: true
-      }
-    }
+        nullable: true,
+      },
+    },
   },
-  'address': {
+  address: {
     isObject: true,
   },
   'address.address1': {
@@ -57,9 +57,9 @@ export const createPhoneBookRecordSchema: Schema = Object.freeze({
     trim: true,
     optional: {
       options: {
-        nullable: true
-      }
-    }
+        nullable: true,
+      },
+    },
   },
   'address.city': {
     isString: true,
@@ -70,6 +70,6 @@ export const createPhoneBookRecordSchema: Schema = Object.freeze({
     trim: true,
   },
   'address.country': {
-    isString: true
+    isString: true,
   },
 })

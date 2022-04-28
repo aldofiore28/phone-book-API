@@ -6,7 +6,7 @@ import {
   buildSaveAddressSprocInputs,
   buildSavePhoneNumbersSprocInputs,
   buildSaveRecordSprocInputs,
-  buildErrorResponse
+  buildErrorResponse,
 } from '../utils'
 import { StoredProcedures, WithAddressId, WithPhoneNumbersId } from '../types'
 
@@ -19,7 +19,9 @@ export const createPhoneBookRecord = async (req: Request, res: Response) => {
 
   try {
     const addressInputs = buildSaveAddressSprocInputs(req.body.address)
-    const phoneNumberInputs = buildSavePhoneNumbersSprocInputs(req.body.phoneNumbers)
+    const phoneNumberInputs = buildSavePhoneNumbersSprocInputs(
+      req.body.phoneNumbers
+    )
 
     const [addressResult, phoneNumberResult] = await Promise.all([
       runStoredProcedure<WithAddressId>(
@@ -29,21 +31,23 @@ export const createPhoneBookRecord = async (req: Request, res: Response) => {
       runStoredProcedure<WithPhoneNumbersId>(
         StoredProcedures.SAVE_PHONE_NUMBERS,
         phoneNumberInputs
-      )
+      ),
     ])
 
     const addressId = addressResult[0]?.addressId
     const phoneNumbersId = phoneNumberResult[0]?.phoneNumbersId
 
     if (!addressId || !phoneNumbersId) {
-      return res.status(500).json(buildErrorResponse(new Error('Unexpected error')))
+      return res
+        .status(500)
+        .json(buildErrorResponse(new Error('Unexpected error')))
     }
 
     const recordInputs = buildSaveRecordSprocInputs({
       email: req.body.email,
       name: req.body.name,
       phoneNumbersId,
-      addressId
+      addressId,
     })
 
     await runStoredProcedure(StoredProcedures.SAVE_RECORD, recordInputs)

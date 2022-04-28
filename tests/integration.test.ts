@@ -8,25 +8,25 @@ const mocks = {
     input: jest.fn(),
     execute: jest.fn(),
     VarChar: jest.fn(),
-    Int: jest.fn()
+    Int: jest.fn(),
   },
   env: {
     APP_PORT: '1234',
     DATABASE_USER: 'a user',
     DATABASE_PASSWORD: 'a password',
     DATABASE_TARGET: 'a database',
-    DATABASE_SERVER: 'a server'
-  } as NodeJS.ProcessEnv
+    DATABASE_SERVER: 'a server',
+  } as NodeJS.ProcessEnv,
 }
 
 jest.mock('mssql', () => ({
   __esModule: true,
-  default: mocks.sql
+  default: mocks.sql,
 }))
 
-import request from 'supertest'
-import { BASE_ROUTE } from '../src/router'
-import { buildApp } from '../src/buildApp'
+import request from 'supertest' // eslint-disable-line import/first
+import { BASE_ROUTE } from '../src/router' // eslint-disable-line import/first
+import { buildApp } from '../src/buildApp' // eslint-disable-line import/first
 
 describe('Integration tests', () => {
   let app: Express
@@ -39,7 +39,7 @@ describe('Integration tests', () => {
     beforeEach(() => {
       mocks.sql.Request.mockImplementation(() => ({
         input: mocks.sql.input,
-        execute: mocks.sql.execute
+        execute: mocks.sql.execute,
       }))
     })
 
@@ -53,7 +53,7 @@ describe('Integration tests', () => {
     it('returns 200 and basic data', async () => {
       const basicJson = {
         id: 123,
-        mobile: '070000000'
+        mobile: '070000000',
       } as PhoneNumbers & WithId
 
       mocks.sql.execute.mockResolvedValueOnce({ recordset: [basicJson] })
@@ -69,7 +69,7 @@ describe('Integration tests', () => {
     beforeEach(() => {
       mocks.sql.Request.mockImplementation(() => ({
         input: mocks.sql.input,
-        execute: mocks.sql.execute
+        execute: mocks.sql.execute,
       }))
     })
 
@@ -84,7 +84,7 @@ describe('Integration tests', () => {
       await request(app)
         .post(BASE_ROUTE)
         .send({})
-        .set({ 'Accept': 'application/json' })
+        .set({ Accept: 'application/json' })
         .expect(400)
         .expect([
           { errorMessage: 'Invalid value', field: 'name' },
@@ -96,21 +96,23 @@ describe('Integration tests', () => {
           { errorMessage: 'Invalid value', field: 'address.address1' },
           { errorMessage: 'Invalid value', field: 'address.city' },
           { errorMessage: 'Invalid value', field: 'address.postcode' },
-          { errorMessage: 'Invalid value', field: 'address.country' }
+          { errorMessage: 'Invalid value', field: 'address.country' },
         ])
     })
 
     it('Returns 500 with a valid body but an error when retrieving the addressId', async () => {
       // mocks return of the addressId after save
       mocks.sql.execute.mockResolvedValueOnce({
-        recordset: []
+        recordset: [],
       })
 
       // mocks return of the phoneNumberId after save
       mocks.sql.execute.mockResolvedValueOnce({
-        recordset: [{
-          phoneNumbersId: '123'
-        }]
+        recordset: [
+          {
+            phoneNumbersId: '123',
+          },
+        ],
       })
 
       await request(app)
@@ -122,27 +124,29 @@ describe('Integration tests', () => {
             address1: 'an address',
             city: 'Bath',
             postcode: 'a postcode',
-            country: 'United Kingdom'
+            country: 'United Kingdom',
           },
           phoneNumbers: {
-            mobile: '070000000'
-          }
+            mobile: '070000000',
+          },
         } as PhoneBook)
-        .set({ 'Accept': 'application/json' })
+        .set({ Accept: 'application/json' })
         .expect(500)
     })
 
     it('Returns 500 with a valid body but an error when retrieving the phoneNumbersId', async () => {
       // mocks return of the addressId after save
       mocks.sql.execute.mockResolvedValueOnce({
-        recordset: [{
-          addressId: '123'
-        }]
+        recordset: [
+          {
+            addressId: '123',
+          },
+        ],
       })
 
       // mocks return of the phoneNumberId after save
       mocks.sql.execute.mockResolvedValueOnce({
-        recordset: []
+        recordset: [],
       })
 
       await request(app)
@@ -154,34 +158,38 @@ describe('Integration tests', () => {
             address1: 'an address',
             city: 'Bath',
             postcode: 'a postcode',
-            country: 'United Kingdom'
+            country: 'United Kingdom',
           },
           phoneNumbers: {
-            mobile: '070000000'
-          }
+            mobile: '070000000',
+          },
         } as PhoneBook)
-        .set({ 'Accept': 'application/json' })
+        .set({ Accept: 'application/json' })
         .expect(500)
     })
 
     it('Returns 201 with a valid body', async () => {
       // mocks return of the addressId after save
       mocks.sql.execute.mockResolvedValueOnce({
-        recordset: [{
-          addressId: '123'
-        }]
+        recordset: [
+          {
+            addressId: '123',
+          },
+        ],
       })
 
       // mocks return of the phoneNumberId after save
       mocks.sql.execute.mockResolvedValueOnce({
-        recordset: [{
-          phoneNumbersId: '123'
-        }]
+        recordset: [
+          {
+            phoneNumbersId: '123',
+          },
+        ],
       })
 
       // mocks return of the phoneNumberId after save
       mocks.sql.execute.mockResolvedValueOnce({
-        recordset: undefined
+        recordset: undefined,
       })
 
       await request(app)
@@ -193,13 +201,13 @@ describe('Integration tests', () => {
             address1: 'an address',
             city: 'Bath',
             postcode: 'a postcode',
-            country: 'United Kingdom'
+            country: 'United Kingdom',
           },
           phoneNumbers: {
-            mobile: '070000000'
-          }
+            mobile: '070000000',
+          },
         } as PhoneBook)
-        .set({ 'Accept': 'application/json' })
+        .set({ Accept: 'application/json' })
         .expect(201)
     })
   })

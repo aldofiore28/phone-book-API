@@ -3,24 +3,25 @@ import { StoredProcedures } from '../types'
 const mocks = {
   storedProcedureName: 'a procedure' as StoredProcedures,
   sql: {
-    Request: jest.fn()
+    Request: jest.fn(),
   },
   execute: jest.fn(),
-  input: jest.fn()
+  input: jest.fn(),
 }
 
 jest.mock('mssql', () => ({
   __esModule: true,
-  default: mocks.sql
+  default: mocks.sql,
 }))
 
+// eslint-disable-next-line import/first
 import { runStoredProcedure, SQLInputs } from './runStoredProcedure'
 
 describe.only('runStoredProcedure', () => {
   beforeEach(() => {
     mocks.sql.Request.mockImplementation(() => ({
       execute: mocks.execute,
-      input: mocks.input
+      input: mocks.input,
     }))
   })
 
@@ -31,11 +32,11 @@ describe.only('runStoredProcedure', () => {
 
   it('runs a sproc without inputs and returns data from the db', async () => {
     const anyData = {
-      a: 1
+      a: 1,
     }
 
     mocks.execute.mockResolvedValueOnce({
-      recordset: [anyData]
+      recordset: [anyData],
     })
 
     const result = await runStoredProcedure(mocks.storedProcedureName)
@@ -46,29 +47,33 @@ describe.only('runStoredProcedure', () => {
 
   it('runs a sproc with inputs and returns data from the db if present', async () => {
     const anyData = {
-      a: 1
+      a: 1,
     }
 
     const input: SQLInputs = {
       name: 'a name',
       type: {} as any,
-      value: 1
+      value: 1,
     }
 
     mocks.execute.mockResolvedValueOnce({
-      recordset: [anyData]
+      recordset: [anyData],
     })
 
     const result = await runStoredProcedure(mocks.storedProcedureName, [input])
 
-    expect(mocks.input).toHaveBeenCalledWith(input.name, input.type, input.value)
+    expect(mocks.input).toHaveBeenCalledWith(
+      input.name,
+      input.type,
+      input.value
+    )
     expect(mocks.execute).toHaveBeenCalledWith(mocks.storedProcedureName)
     expect(result).toStrictEqual([anyData])
   })
 
   it('runs a sproc with inputs and returns undefined if no data need to be retrieved from the db', async () => {
     mocks.execute.mockResolvedValueOnce({
-      recordset: undefined
+      recordset: undefined,
     })
 
     const result = await runStoredProcedure(mocks.storedProcedureName)

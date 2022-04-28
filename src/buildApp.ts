@@ -2,7 +2,10 @@ import express, { Express } from 'express'
 import phoneBookRouter from './router'
 import { config as sqlConfig } from 'mssql'
 
-export const buildApp = async (sql: any, env: NodeJS.ProcessEnv): Promise<Express> => {
+export const buildApp = async (
+  sql: any,
+  env: NodeJS.ProcessEnv
+): Promise<Express> => {
   const app = express()
   const port = env.APP_PORT || 5000
   const databaseOptions: sqlConfig = {
@@ -13,12 +16,12 @@ export const buildApp = async (sql: any, env: NodeJS.ProcessEnv): Promise<Expres
     pool: {
       max: 10,
       min: 0,
-      idleTimeoutMillis: 30000
+      idleTimeoutMillis: 30000,
     },
     options: {
       encrypt: true,
-      trustServerCertificate: true
-    }
+      trustServerCertificate: true,
+    },
   }
 
   app.use(express.json())
